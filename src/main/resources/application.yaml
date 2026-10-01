@@ -1,3 +1,17 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: pokedex_back_david_rodriguez_osorio
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pokedex
+    username: postgres
+    password: 4268
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
