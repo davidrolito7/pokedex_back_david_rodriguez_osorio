@@ -42,6 +42,7 @@ public class PokemonService {
         existente.setNombre(datos.getNombre());
         existente.setTipo(datos.getTipo());
         existente.setNivel(datos.getNivel());
+        existente.setHp(datos.getHp());
         existente.setFechaCaptura(datos.getFechaCaptura());
         existente.setEntrenador(resolverEntrenador(datos.getEntrenador()));
         return repo.save(existente);

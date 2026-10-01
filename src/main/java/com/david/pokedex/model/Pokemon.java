@@ -35,6 +35,12 @@ public class Pokemon {
     @Column(nullable = false)
     private Integer nivel;
 
+    @NotNull
+    @Min(1)
+    @Max(100)
+    @Column(nullable = false)
+    private Integer hp;
+
     @PastOrPresent
     @Column(name = "fecha_captura")
     private LocalDate fechaCaptura;
@@ -58,6 +64,9 @@ public class Pokemon {
 
     public Integer getNivel() { return nivel; }
     public void setNivel(Integer nivel) { this.nivel = nivel; }
+
+    public Integer getHp() { return hp; }
+    public void setHp(Integer hp) { this.hp = hp; }
 
     public LocalDate getFechaCaptura() { return fechaCaptura; }
     public void setFechaCaptura(LocalDate fechaCaptura) { this.fechaCaptura = fechaCaptura; }
