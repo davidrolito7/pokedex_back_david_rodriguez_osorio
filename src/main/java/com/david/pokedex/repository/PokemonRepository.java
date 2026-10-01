@@ -12,6 +12,8 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
     Optional<Pokemon> findByIdAndActivoTrue(Long id);
 
+    long countByEntrenadorIdAndActivoTrue(Long entrenadorId);
+
     @Query("""
             SELECT p FROM Pokemon p
             WHERE p.activo = true

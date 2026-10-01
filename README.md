@@ -109,3 +109,4 @@ Catálogo de solo lectura: Normal, Fuego, Agua, Planta, Eléctrico, Hielo y Luch
 ## Importante
 
 - **Borrar no borra:** el DELETE solo desactiva el registro, y ya no aparece en la API.
+- **Máximo 3 Pokémon por entrenador:** si intentas asignarle uno más, responde 409.
