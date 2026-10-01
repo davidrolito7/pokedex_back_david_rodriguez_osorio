@@ -1,13 +1,14 @@
 package com.david.pokedex.service;
 
+import com.david.pokedex.dto.PokemonRequest;
 import com.david.pokedex.model.Entrenador;
 import com.david.pokedex.model.Pokemon;
-import com.david.pokedex.model.Tipo;
 import com.david.pokedex.repository.PokemonRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,8 +24,12 @@ public class PokemonService {
         this.tipoService = tipoService;
     }
 
-    public List<Pokemon> listar() {
-        return repo.findByActivoTrue();
+    public List<Pokemon> listar(LocalDate fechaInicio, LocalDate fechaFin, Long tipoId) {
+        if (fechaInicio != null && fechaFin != null && fechaInicio.isAfter(fechaFin)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "fechaInicio no puede ser posterior a fechaFin");
+        }
+        return repo.filtrar(fechaInicio, fechaFin, tipoId);
     }
 
     public Pokemon obtener(Long id) {
@@ -33,23 +38,15 @@ public class PokemonService {
                         HttpStatus.NOT_FOUND, "Pokemon no encontrado"));
     }
 
-    public Pokemon crear(Pokemon pokemon) {
-        pokemon.setId(null);
-        pokemon.setActivo(true);
-        pokemon.setTipo(resolverTipo(pokemon.getTipo()));
-        pokemon.setEntrenador(resolverEntrenador(pokemon.getEntrenador()));
+    public Pokemon crear(PokemonRequest request) {
+        Pokemon pokemon = new Pokemon();
+        copiarDatos(request, pokemon);
         return repo.save(pokemon);
     }
 
-    public Pokemon actualizar(Long id, Pokemon datos) {
+    public Pokemon actualizar(Long id, PokemonRequest request) {
         Pokemon existente = obtener(id);
-        existente.setNombre(datos.getNombre());
-        existente.setTipo(resolverTipo(datos.getTipo()));
-        existente.setNivel(datos.getNivel());
-        existente.setHp(datos.getHp());
-        existente.setFechaCaptura(datos.getFechaCaptura());
-        existente.setImagenUrl(datos.getImagenUrl());
-        existente.setEntrenador(resolverEntrenador(datos.getEntrenador()));
+        copiarDatos(request, existente);
         return repo.save(existente);
     }
 
@@ -59,19 +56,18 @@ public class PokemonService {
         repo.save(existente);
     }
 
-    // El tipo es obligatorio y debe existir en el catálogo (si no, 404)
-    private Tipo resolverTipo(Tipo tipo) {
-        if (tipo.getId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El id del tipo es obligatorio");
-        }
-        return tipoService.obtener(tipo.getId());
+    private void copiarDatos(PokemonRequest request, Pokemon pokemon) {
+        pokemon.setNombre(request.nombre());
+        pokemon.setTipo(tipoService.obtener(request.tipoId()));
+        pokemon.setNivel(request.nivel());
+        pokemon.setHp(request.hp());
+        pokemon.setFechaCaptura(request.fechaCaptura());
+        pokemon.setImagenUrl(request.imagenUrl());
+        pokemon.setEntrenador(resolverEntrenador(request.entrenadorId()));
     }
 
     // El entrenador es opcional; si viene, debe existir y estar activo (si no, 404)
-    private Entrenador resolverEntrenador(Entrenador entrenador) {
-        if (entrenador == null || entrenador.getId() == null) {
-            return null;
-        }
-        return entrenadorService.obtener(entrenador.getId());
+    private Entrenador resolverEntrenador(Long entrenadorId) {
+        return entrenadorId == null ? null : entrenadorService.obtener(entrenadorId);
     }
 }

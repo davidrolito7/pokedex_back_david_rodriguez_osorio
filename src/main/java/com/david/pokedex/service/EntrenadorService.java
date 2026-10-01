@@ -1,5 +1,6 @@
 package com.david.pokedex.service;
 
+import com.david.pokedex.dto.EntrenadorRequest;
 import com.david.pokedex.model.Entrenador;
 import com.david.pokedex.repository.EntrenadorRepository;
 import org.springframework.http.HttpStatus;
@@ -27,15 +28,15 @@ public class EntrenadorService {
                         HttpStatus.NOT_FOUND, "Entrenador no encontrado"));
     }
 
-    public Entrenador crear(Entrenador entrenador) {
-        entrenador.setId(null);
-        entrenador.setActivo(true);
+    public Entrenador crear(EntrenadorRequest request) {
+        Entrenador entrenador = new Entrenador();
+        entrenador.setNombre(request.nombre());
         return repo.save(entrenador);
     }
 
-    public Entrenador actualizar(Long id, Entrenador datos) {
+    public Entrenador actualizar(Long id, EntrenadorRequest request) {
         Entrenador existente = obtener(id);
-        existente.setNombre(datos.getNombre());
+        existente.setNombre(request.nombre());
         return repo.save(existente);
     }
 

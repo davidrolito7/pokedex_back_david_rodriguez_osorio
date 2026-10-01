@@ -3,12 +3,14 @@ package com.david.pokedex.controller;
 import com.david.pokedex.dto.GenericResponse;
 import com.david.pokedex.model.Tipo;
 import com.david.pokedex.service.TipoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Tipos", description = "Catálogo de tipos de Pokémon")
 @RestController
 @RequestMapping("/api/tipos")
 public class TipoController {

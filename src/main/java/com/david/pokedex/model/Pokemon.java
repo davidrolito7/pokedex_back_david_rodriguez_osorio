@@ -2,12 +2,6 @@ package com.david.pokedex.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
@@ -19,33 +13,22 @@ public class Pokemon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 50)
     @Column(nullable = false, length = 50)
     private String nombre;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "tipo_id", nullable = false)
     private Tipo tipo;
 
-    @NotNull
-    @Min(1)
-    @Max(100)
     @Column(nullable = false)
     private Integer nivel;
 
-    @NotNull
-    @Min(1)
-    @Max(100)
     @Column(nullable = false)
     private Integer hp;
 
-    @PastOrPresent
     @Column(name = "fecha_captura")
     private LocalDate fechaCaptura;
 
-    @Size(max = 255)
     @Column(name = "imagen_url", length = 255)
     private String imagenUrl;
 

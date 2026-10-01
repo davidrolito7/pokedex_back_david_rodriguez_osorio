@@ -27,6 +27,13 @@ Una API para guardar entrenadores y sus Pokémon. Hecha con Spring Boot y Postgr
 
 La API esta en **http://localhost:8081** y ya trae algunos entrenadores y Pokémon de ejemplo.
 
+## Swagger
+
+La API tiene Swagger, ahí puedes ver y probar todos los endpoints desde el navegador:
+
+- **http://localhost:8081/swagger-ui.html**
+- JSON de OpenAPI: http://localhost:8081/v3/api-docs
+
 ## Endpoints
 
 ### Entrenadores
@@ -38,7 +45,8 @@ La API esta en **http://localhost:8081** y ya trae algunos entrenadores y Pokém
 | POST | `/api/entrenadores` | Crear |
 | PUT | `/api/entrenadores/{id}` | Editar |
 | DELETE | `/api/entrenadores/{id}` | Desactivar |
-## POST/PUT REQUEST
+
+#### POST/PUT REQUEST
 
 ```json
 {
@@ -51,38 +59,52 @@ La API esta en **http://localhost:8081** y ya trae algunos entrenadores y Pokém
 | Método | Ruta | Qué hace |
 |---|---|---|
 | GET | `/api/pokemon` | Ver todos |
+| GET | `/api/pokemon?fechaInicio=&fechaFin=&tipoId=` | Filtrar |
 | GET | `/api/pokemon/{id}` | Ver uno |
 | POST | `/api/pokemon` | Crear |
 | PUT | `/api/pokemon/{id}` | Editar |
 | DELETE | `/api/pokemon/{id}` | Desactivar |
 
-## POST/PUT REQUEST
+#### Filtros
+
+Todos son opcionales y se pueden combinar:
+
+| Parámetro | Ejemplo | Qué hace |
+|---|---|---|
+| `fechaInicio` | `2026-03-01` | Capturados desde esa fecha |
+| `fechaFin` | `2026-05-31` | Capturados hasta esa fecha |
+| `tipoId` | `3` | Solo de ese tipo |
+
+```
+GET /api/pokemon?fechaInicio=2026-03-01&fechaFin=2026-05-31&tipoId=3
+```
+
+#### POST/PUT REQUEST
 
 ```json
 {
-  "nombre": "Mewtwo",
-  "tipo": { "id": 11 },
+  "nombre": "Machamp",
+  "tipoId": 7,
   "nivel": 70,
   "hp": 95,
   "fechaCaptura": "2026-09-01",
-  "imagenUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
-  "entrenador": { "id": 4 }
+  "imagenUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/68.png",
+  "entrenadorId": 4
 }
 ```
 
 - `nivel` y `hp` van del 1 al 100.
-- `tipo` es obligatorio; los ids salen de `/api/tipos`.
-- `fechaCaptura`, `imagenUrl` y `entrenador` son opcionales.
+- `tipoId` es obligatorio; los ids salen de `/api/tipos`.
+- `fechaCaptura`, `imagenUrl` y `entrenadorId` son opcionales.
 
 ### Tipos
+
+Catálogo de solo lectura: Normal, Fuego, Agua, Planta, Eléctrico, Hielo y Lucha.
 
 | Método | Ruta | Qué hace |
 |---|---|---|
 | GET | `/api/tipos` | Ver todos |
 | GET | `/api/tipos/{id}` | Ver uno |
-
-
-
 
 ## Importante
 
