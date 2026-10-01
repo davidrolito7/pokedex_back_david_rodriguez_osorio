@@ -61,16 +61,25 @@ La API esta en **http://localhost:8081** y ya trae algunos entrenadores y Pokém
 ```json
 {
   "nombre": "Mewtwo",
-  "tipo": "Psíquico",
+  "tipo": { "id": 11 },
   "nivel": 70,
   "hp": 95,
   "fechaCaptura": "2026-09-01",
+  "imagenUrl": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
   "entrenador": { "id": 4 }
 }
 ```
 
 - `nivel` y `hp` van del 1 al 100.
-- `fechaCaptura` y `entrenador` son opcionales.
+- `tipo` es obligatorio; los ids salen de `/api/tipos`.
+- `fechaCaptura`, `imagenUrl` y `entrenador` son opcionales.
+
+### Tipos
+
+| Método | Ruta | Qué hace |
+|---|---|---|
+| GET | `/api/tipos` | Ver todos |
+| GET | `/api/tipos/{id}` | Ver uno |
 
 
 

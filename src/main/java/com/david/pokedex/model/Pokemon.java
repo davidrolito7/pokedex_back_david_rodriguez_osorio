@@ -24,10 +24,10 @@ public class Pokemon {
     @Column(nullable = false, length = 50)
     private String nombre;
 
-    @NotBlank
-    @Size(max = 20)
-    @Column(nullable = false, length = 20)
-    private String tipo;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "tipo_id", nullable = false)
+    private Tipo tipo;
 
     @NotNull
     @Min(1)
@@ -45,6 +45,10 @@ public class Pokemon {
     @Column(name = "fecha_captura")
     private LocalDate fechaCaptura;
 
+    @Size(max = 255)
+    @Column(name = "imagen_url", length = 255)
+    private String imagenUrl;
+
     @ManyToOne
     @JoinColumn(name = "entrenador_id")
     private Entrenador entrenador;
@@ -59,8 +63,8 @@ public class Pokemon {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
+    public Tipo getTipo() { return tipo; }
+    public void setTipo(Tipo tipo) { this.tipo = tipo; }
 
     public Integer getNivel() { return nivel; }
     public void setNivel(Integer nivel) { this.nivel = nivel; }
@@ -70,6 +74,9 @@ public class Pokemon {
 
     public LocalDate getFechaCaptura() { return fechaCaptura; }
     public void setFechaCaptura(LocalDate fechaCaptura) { this.fechaCaptura = fechaCaptura; }
+
+    public String getImagenUrl() { return imagenUrl; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 
     public Entrenador getEntrenador() { return entrenador; }
     public void setEntrenador(Entrenador entrenador) { this.entrenador = entrenador; }

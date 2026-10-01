@@ -2,6 +2,7 @@ package com.david.pokedex.service;
 
 import com.david.pokedex.model.Entrenador;
 import com.david.pokedex.model.Pokemon;
+import com.david.pokedex.model.Tipo;
 import com.david.pokedex.repository.PokemonRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ public class PokemonService {
 
     private final PokemonRepository repo;
     private final EntrenadorService entrenadorService;
+    private final TipoService tipoService;
 
-    public PokemonService(PokemonRepository repo, EntrenadorService entrenadorService) {
+    public PokemonService(PokemonRepository repo, EntrenadorService entrenadorService, TipoService tipoService) {
         this.repo = repo;
         this.entrenadorService = entrenadorService;
+        this.tipoService = tipoService;
     }
 
     public List<Pokemon> listar() {
@@ -33,6 +36,7 @@ public class PokemonService {
     public Pokemon crear(Pokemon pokemon) {
         pokemon.setId(null);
         pokemon.setActivo(true);
+        pokemon.setTipo(resolverTipo(pokemon.getTipo()));
         pokemon.setEntrenador(resolverEntrenador(pokemon.getEntrenador()));
         return repo.save(pokemon);
     }
@@ -40,10 +44,11 @@ public class PokemonService {
     public Pokemon actualizar(Long id, Pokemon datos) {
         Pokemon existente = obtener(id);
         existente.setNombre(datos.getNombre());
-        existente.setTipo(datos.getTipo());
+        existente.setTipo(resolverTipo(datos.getTipo()));
         existente.setNivel(datos.getNivel());
         existente.setHp(datos.getHp());
         existente.setFechaCaptura(datos.getFechaCaptura());
+        existente.setImagenUrl(datos.getImagenUrl());
         existente.setEntrenador(resolverEntrenador(datos.getEntrenador()));
         return repo.save(existente);
     }
@@ -52,6 +57,14 @@ public class PokemonService {
         Pokemon existente = obtener(id);
         existente.setActivo(false);
         repo.save(existente);
+    }
+
+    // El tipo es obligatorio y debe existir en el catálogo (si no, 404)
+    private Tipo resolverTipo(Tipo tipo) {
+        if (tipo.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El id del tipo es obligatorio");
+        }
+        return tipoService.obtener(tipo.getId());
     }
 
     // El entrenador es opcional; si viene, debe existir y estar activo (si no, 404)

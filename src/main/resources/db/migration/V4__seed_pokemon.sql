@@ -1,16 +1,16 @@
     INSERT INTO pokemon (nombre, tipo, nivel, fecha_captura, entrenador_id) VALUES
         ('Pikachu',    'Eléctrico', 25, '2026-01-15', 1),
         ('Charmander', 'Fuego',     12, '2026-01-28', 1),
-        ('Butterfree', 'Bicho',     16, '2026-02-10', 1),
+        ('Machop',     'Lucha',     16, '2026-02-10', 1),
         ('Squirtle',   'Agua',      10, '2026-02-20', 2),
         ('Staryu',     'Agua',      14, '2026-03-02', 2),
         ('Psyduck',    'Agua',       9, '2026-03-18', 2),
-        ('Onix',       'Roca',      18, '2026-03-25', 3),
-        ('Geodude',    'Roca',      11, '2026-04-06', 3),
+        ('Mankey',     'Lucha',     18, '2026-03-25', 3),
+        ('Snorunt',    'Hielo',     11, '2026-04-06', 3),
         ('Vulpix',     'Fuego',     13, '2026-04-19', 3),
         ('Eevee',      'Normal',     8, '2026-05-01', 4),
-        ('Gengar',     'Fantasma',  30, '2026-05-14', 4),
+        ('Hitmonlee',  'Lucha',     30, '2026-05-14', 4),
         ('Snorlax',    'Normal',    27, '2026-05-30', 4),
         ('Bulbasaur',  'Planta',    14, '2026-06-08', 5),
-        ('Jigglypuff', 'Hada',      12, '2026-06-22', 5),
-        ('Lapras',     'Agua',      22, '2026-07-10', 5);
+        ('Jigglypuff', 'Normal',    12, '2026-06-22', 5),
+        ('Lapras',     'Hielo',     22, '2026-07-10', 5);
